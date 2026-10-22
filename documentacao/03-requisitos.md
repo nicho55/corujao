@@ -372,3 +372,61 @@ começa antes de o desktop fechar.
 
 AppImage para o Linux; chave de release do Android (decisão do dono); navegação por controle no
 POG para o modo jogo do Deck.
+
+---
+
+## RF-10 — O POG cuida dos saves
+
+- **status:** aceito, a implementar depois
+- **revisado em:** 22/10/2026
+- **pedido por:** o dono, 22/10/2026
+
+### O que é
+
+O POG já é responsável pelos arquivos do jogo e da recomp. O dono quer que ele assuma também
+os **saves** do jogador.
+
+### A distinção que decide tudo
+
+**Binário de jogo se refaz; save não.** Uma recomp perdida custa 1h45 de compilação. Um save
+perdido custa a partida inteira e não volta. São classes diferentes de arquivo e merecem
+políticas diferentes: o binário pode ser apagado à vontade para liberar espaço, o save nunca.
+
+Há ainda uma terceira classe que **não pode ser confundida** com as outras duas: os **estados**
+(`.bwstate`). Eles parecem save e não são — servem para depuração, medição e, no futuro, para o
+rollback do netplay. Perder um estado é irrelevante; perder o cartão de memória não.
+
+### O que existe hoje, no caso real
+
+| o quê | onde | classe |
+|---|---|---|
+| cartão de memória | `~/.local/share/BlueWake/GZLE01.card` (+ `.bak`) | save, insubstituível |
+| estados rápidos | `~/.local/share/BlueWake/quick-<N>.bwstate` | estado, descartável |
+| preferências | `~/.config/BlueWake/settings.ini` | configuração |
+
+O BlueWake já guarda **um** nível de backup do cartão. Um só.
+
+### O que se espera do desenho
+
+- **Migrar copiando e conferindo, nunca movendo.** Se o POG passar a hospedar os saves, a
+  primeira execução copia, confere byte a byte, e **deixa o original onde está**. Perder save de
+  alguém por causa de uma migração é o pior defeito possível neste programa;
+- **versionar, não sobrescrever.** O desastre comum não é o arquivo sumir, é um save ruim
+  gravado por cima do bom — jogo que trava ao salvar, disco cheio, queda de energia. Guarde N
+  versões anteriores com data, não uma só;
+- **o jogo escreve onde ele quer.** Dá para redirecionar o BlueWake por `XDG_DATA_HOME` e
+  `XDG_CONFIG_HOME` (o `bin/medir-ritmo.sh` do RECOMPS faz exatamente isso), mas **não há
+  garantia de que toda recomp respeite**. Então o `jogo.toml` precisa **declarar** onde ficam os
+  saves daquele jogo, e o POG trabalha com essa declaração em vez de adivinhar;
+- **cabe na pasta única** do RF-01: save é o que mais justifica a regra de copiar a pasta inteira
+  e levar tudo;
+- **sincronizar entre máquinas** é desejável — o dono joga no PC e o amigo tem Steam Deck — mas
+  o caso difícil não é copiar, é **o conflito**: jogou nos dois lados sem sincronizar. Isso tem
+  que ser decidido no desenho, não descoberto em produção. Pior ainda seria "o mais recente
+  vence" apagando a partida boa em silêncio.
+
+### Em aberto
+
+Se o POG hospeda os saves ou apenas faz cópia de segurança do que o jogo escreve. A primeira
+opção dá a pasta única; a segunda é mais segura com recomps que ignoram as variáveis de
+ambiente. **Não resolver agora.**
