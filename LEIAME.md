@@ -53,10 +53,37 @@ cd pog
 Desenvolvimento com recarga a quente da interface: `cd interface && flutter run -d linux`.
 Mudou `nucleo/src/api/`? Rode `cd interface && flutter_rust_bridge_codegen generate`.
 
-### macOS, Android e iOS
+### Steam Deck
 
-Estão no desenho (é o mesmo código), mas ainda não há pacote. Quem quiser compilar: `flutter
-build macos` / `apk` / `ios` em `interface/`.
+É um PC Linux (x86-64, SteamOS). Use o pacote Linux no modo área de trabalho: extraia em
+`~/Applications` e abra o `pog`. O pacote é compilado numa base antiga para rodar em sistemas
+conservadores, e cada release imprime no log do CI a glibc mínima que exige. Para o modo jogo,
+adicione o `pog` como jogo não-Steam. O POG ainda não navega por controle: use o touchpad.
+
+Antes de baixar a recomp, confira a glibc do seu Deck no Konsole:
+
+```bash
+getconf GNU_LIBC_VERSION
+```
+
+Se aparecer 2.38 ou maior, o BlueWake roda.
+
+### Android e iOS (só para ver a interface, por enquanto)
+
+Vale dizer antes de instalar: **no celular o POG ainda não roda jogo nenhum.** Executar um binário
+local não existe no Android e no iOS como no computador; isso é uma fase futura do projeto. O app
+móvel serve para ver a interface e o catálogo da aba Explorar.
+
+- **Android:** o `pog-android.apk` da release é assinado com chave de depuração. O celular vai
+  pedir para liberar "fontes desconhecidas" para o navegador ou gerenciador de arquivos.
+- **iOS:** não há arquivo instalável. Sem conta de desenvolvedor da Apple e assinatura, ninguém
+  instala um app fora da App Store; o caminho seria AltStore ou SideStore com um Apple ID. O CI só
+  compila para iOS para pegar erro cedo.
+
+### macOS
+
+Está no desenho (é o mesmo código), mas ainda não há pacote. Quem quiser: `flutter build macos`
+em `interface/`.
 
 ## Por que o jogo não vem junto
 

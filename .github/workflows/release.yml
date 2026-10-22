@@ -59,8 +59,10 @@ jobs:
             instalador/POG-instalar-ou-atualizar.bat
 
   linux:
-    name: Linux x64
-    runs-on: ubuntu-latest
+    # Base ANTIGA de propósito (RF-09): binário feito contra glibc 2.35 roda em qualquer
+    # distro de 2022 em diante, inclusive o SteamOS do Steam Deck. O contrário não roda.
+    name: Linux x64 (portátil)
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - name: Dependências do Flutter para GTK
@@ -85,6 +87,12 @@ jobs:
       - name: Compilar
         working-directory: interface
         run: flutter build linux --release
+      - name: Portabilidade (glibc que o pacote exige; sai no log de toda release)
+        run: |
+          echo "glibc do runner: $(ldd --version | head -1)"
+          for f in interface/build/linux/x64/release/bundle/pog interface/build/linux/x64/release/bundle/lib/*.so; do
+            printf '%-45s exige %s\n' "$(basename "$f")" "$(objdump -T "$f" | grep -o 'GLIBC_[0-9.]*' | sort -V | tail -1)"
+          done
       - name: Empacotar
         run: |
           mkdir -p pacote/pog

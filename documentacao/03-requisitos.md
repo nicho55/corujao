@@ -329,3 +329,46 @@ roda.** (Testado aqui: devolve `glibc 2.41` nesta Debian.)
 
 Compilar o pacote Linux em `ubuntu-22.04`; navegação por controle no POG; e, só depois de o amigo
 rodar o comando, decidir se vale embrulhar o POG em AppImage.
+
+---
+
+## RF-09 — Actions publicando para Windows, Linux (inclusive Steam Deck) e celular
+
+- **status:** aceito, por etapas
+- **revisado em:** 22/10/2026
+- **pedido por:** o dono, 22/10/2026
+
+### O que é
+
+A cada tag `v*`, o GitHub Actions gera os pacotes e anexa à release: Windows, Linux, Android e
+iOS. Ninguém compila na mão para distribuir.
+
+### As quatro observações da gerente, que mudam o desenho
+
+1. **Windows e Linux** já estão no workflow (`Pacotes`). Windows é o primeiro a ficar verde.
+2. **Steam Deck não é alvo novo: é o Linux feito direito.** O Deck é x86-64 com SteamOS (Arch).
+   Binário compilado contra glibc nova não roda em sistema com glibc mais antiga; o contrário roda.
+   Então o Linux é compilado numa **base antiga** (`ubuntu-22.04`, glibc 2.35), e o CI **mede**
+   em toda release a maior glibc que o pacote exige (`objdump -T ... | grep GLIBC_`), em vez de
+   presumir. AppImage fica em consideração para o Linux, porque o SteamOS tem raiz somente
+   leitura e é o formato que menos atrita lá.
+3. **Android:** APK compilado no CI com assinatura de depuração; o usuário libera "fontes
+   desconhecidas". Sem chave de release, nada vai para a Play Store.
+4. **iOS:** o job compila em `macos-latest` para pegar erro cedo, mas **não existe artefato
+   instalável** sem conta de desenvolvedor da Apple e assinatura. É verificação de compilação,
+   não entrega; o `LEIAME` diz isso.
+
+**O aviso que mais importa:** no celular, hoje, o POG abre a biblioteca vazia e não roda jogo
+nenhum, porque "executar um binário local" não existe no Android e no iOS como no desktop (ver o
+plano por fases em `01-arquitetura.md`). O artefato móvel serve para **ver a interface e o
+catálogo**, e o `LEIAME` diz isso para ninguém instalar e achar que quebrou.
+
+### Ordem
+
+Windows verde → Linux portátil (que é o Deck) → Android → iOS como verificação. O celular não
+começa antes de o desktop fechar.
+
+### Em aberto
+
+AppImage para o Linux; chave de release do Android (decisão do dono); navegação por controle no
+POG para o modo jogo do Deck.
