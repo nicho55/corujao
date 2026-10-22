@@ -1,0 +1,31 @@
+[package]
+name = "nucleo"
+version = "0.1.0"
+edition = "2021"
+description = "Núcleo do POG (Plataforma Orientada a Gambiarra): biblioteca, receitas de execução e controle dos jogos"
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+flutter_rust_bridge = "=2.13.0"
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+serde_json = "1"
+
+# catálogo pela rede (só por ação explícita do usuário): cliente HTTP pequeno, bloqueante.
+# No Windows, TLS do sistema (schannel) em vez de rustls, para o runner do CI não precisar de NASM.
+[target.'cfg(not(windows))'.dependencies]
+ureq = "3.4"
+
+[target.'cfg(windows)'.dependencies]
+ureq = { version = "3.4", default-features = false, features = ["native-tls", "gzip"] }
+
+# sinais e grupos de processo: só existem no Unix (execucao.rs::plataforma)
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

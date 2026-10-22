@@ -1,0 +1,38 @@
+# A cada push e pull request: nenhum binário de jogo nem arquivo grande no repositório,
+# testes do núcleo e análise da interface. Barato (sem build de release).
+name: Conferir
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  arquivos:
+    name: Nenhum jogo nem arquivo grande
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git ls-files -z | .githooks/conferir-arquivos.sh
+
+  nucleo:
+    name: Testes do núcleo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - working-directory: nucleo
+        run: cargo test
+
+  interface:
+    name: Análise da interface
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.47.4"
+          cache: true
+      - working-directory: interface
+        run: flutter pub get && flutter analyze

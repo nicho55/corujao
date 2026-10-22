@@ -1,0 +1,101 @@
+# Pacotes do POG para Windows e Linux, feitos no GitHub (grátis em repositório público).
+# Não dá para compilar o Windows a partir do Linux: `flutter build windows` exige Windows com
+# Visual Studio, então o runner `windows-latest` faz esse trabalho.
+#
+# Dispara numa tag `v*` (publica a release com os pacotes anexados) ou à mão (só gera artefatos).
+# O que sai: pog-windows-x64.zip e pog-linux-x64.tar.gz. Nenhum jogo vai junto: o POG é o
+# launcher; cada pessoa compila a própria recomp a partir do próprio disco (ver LEIAME.md).
+name: Pacotes
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FLUTTER_VERSION: "3.47.4"
+
+jobs:
+  windows:
+    name: Windows x64
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rust (o nucleo é compilado pelo cargokit dentro do flutter build)
+        uses: dtolnay/rust-toolchain@stable
+      - name: Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Dependências
+        working-directory: interface
+        run: flutter pub get
+      - name: Compilar
+        working-directory: interface
+        run: flutter build windows --release
+      - name: Empacotar
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path pacote/pog | Out-Null
+          Copy-Item -Recurse -Force interface/build/windows/x64/runner/Release/* pacote/pog/
+          Copy-Item LEIAME.md, LICENSE pacote/pog/
+          Copy-Item -Recurse exemplos pacote/pog/exemplos
+          Compress-Archive -Path pacote/pog -DestinationPath pog-windows-x64.zip -Force
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pog-windows-x64
+          path: pog-windows-x64.zip
+      - name: Anexar à release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: pog-windows-x64.zip
+
+  linux:
+    name: Linux x64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependências do Flutter para GTK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Dependências
+        working-directory: interface
+        run: flutter pub get
+      - name: Testes do núcleo
+        working-directory: nucleo
+        run: cargo test
+      - name: Análise da interface
+        working-directory: interface
+        run: flutter analyze
+      - name: Compilar
+        working-directory: interface
+        run: flutter build linux --release
+      - name: Empacotar
+        run: |
+          mkdir -p pacote/pog
+          cp -r interface/build/linux/x64/release/bundle/* pacote/pog/
+          cp LEIAME.md LICENSE pacote/pog/
+          cp -r exemplos pacote/pog/exemplos
+          tar -C pacote -czf pog-linux-x64.tar.gz pog
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pog-linux-x64
+          path: pog-linux-x64.tar.gz
+      - name: Anexar à release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: pog-linux-x64.tar.gz

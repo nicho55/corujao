@@ -1,0 +1,62 @@
+# ---- gerado pelo build ----
+interface/build/
+interface/.dart_tool/
+interface/.flutter-plugins*
+interface/*.iml
+interface/.idea/
+interface/android/local.properties
+interface/android/.gradle/
+interface/ios/Flutter/Generated.xcconfig
+interface/ios/Flutter/flutter_export_environment.sh
+interface/**/ephemeral/
+interface/**/Pods/
+nucleo/target/
+interface/rust_builder/cargokit/build_tool/.dart_tool/
+
+# ---- código de jogo: NUNCA entra no repositório ----
+# Módulos recompilados, AppImages e imagens de disco são obra derivada do disco original.
+# O POG publica o launcher; cada pessoa compila a própria recomp a partir do próprio disco.
+*.so
+*.so.*
+*.dll
+*.dylib
+*.AppImage
+*.appimage
+*.iso
+*.gcm
+*.rvz
+*.wbfs
+*.ciso
+*.nkit*
+*.z64
+*.n64
+*.v64
+*.rom
+*.bin
+*.elf
+*.dol
+*.apk
+*.exe
+*.zip
+*.7z
+*.tar
+*.tar.*
+*.tgz
+*.xz
+
+# ---- dados do jogador e da máquina: são de quem joga, não do projeto ----
+*.bwstate
+*.card
+*.gci
+*.sav
+*.srm
+*.state
+registros/
+catalogo/
+configuracao.toml
+maquina.toml
+!exemplos/**
+jogos/
+!exemplos/jogos/
+.env
+*.log

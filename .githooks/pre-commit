@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Ative uma vez por clone: git config core.hooksPath .githooks
+cd "$(git rev-parse --show-toplevel)"
+git diff --cached --name-only --diff-filter=AM -z | "$(dirname "$0")/conferir-arquivos.sh" --staged

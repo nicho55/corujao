@@ -1,0 +1,22 @@
+# Receitas de execução DESTA máquina (RF-01). Copie para a raiz de dados do POG
+# (~/jogos/pog/maquina.toml) e ajuste. O que faz um jogo abrir direito depende do computador,
+# não do jogo: por isso é dado, aqui, e não constante no código.
+#
+# Cada jogo aponta a receita que usa em jogo.toml: [execucao] receita = "nome-da-receita".
+# Na v1 o arquivo é escrito à mão; detecção automática e troca entre amigos vêm depois.
+
+# Laptop com duas placas (Intel integrada + Nvidia dedicada, o "Optimus"): sem estas variáveis
+# o jogo abre na Intel e arrasta. Num desktop de placa única, apague a seção inteira.
+[receitas.nvidia-optimus]
+descricao = "Laptop Optimus: manda o jogo para a Nvidia (Vulkan)"
+# Comando que embrulha o jogo (opcional). Ex.: prender a uma faixa de núcleos.
+prefixo = ["taskset", "-c", "0-3"]
+
+[receitas.nvidia-optimus.ambiente]
+__NV_PRIME_RENDER_OFFLOAD = "1"
+__VK_LAYER_NV_optimus = "NVIDIA_only"
+__GLX_VENDOR_LIBRARY_NAME = "nvidia"
+
+# Receita vazia: só roda o jogo como está. Útil para placa única.
+[receitas.padrao]
+descricao = "Sem ajuste nenhum"
