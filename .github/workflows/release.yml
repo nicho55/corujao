@@ -109,3 +109,64 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: pog-linux-x64.tar.gz
+
+  android:
+    # APK com assinatura de depuração (RF-09): serve para ver a interface e o catálogo; no celular
+    # o POG ainda não roda jogo. Sem chave de release, nada vai para a Play Store.
+    name: Android (APK de depuração)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Rust com os alvos do Android (o cargokit compila o nucleo para cada ABI)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Dependências
+        working-directory: interface
+        run: flutter pub get
+      - name: Compilar
+        working-directory: interface
+        run: flutter build apk --release
+      - name: Empacotar
+        run: cp interface/build/app/outputs/flutter-apk/app-release.apk pog-android.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pog-android
+          path: pog-android.apk
+      - name: Anexar à release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: pog-android.apk
+
+  ios:
+    # Só verificação de compilação (RF-09): sem conta de desenvolvedor da Apple não existe
+    # artefato instalável. O job existe para pegar erro de compilação cedo.
+    name: iOS (só verificação de compilação)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rust com o alvo do iOS
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Dependências
+        working-directory: interface
+        run: flutter pub get
+      - name: Compilar sem assinar
+        working-directory: interface
+        run: flutter build ios --release --no-codesign
