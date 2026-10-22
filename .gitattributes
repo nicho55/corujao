@@ -1,0 +1,3 @@
+# O .bat tem de chegar ao Windows com fim de linha CRLF e os scripts com LF.
+*.bat text eol=crlf
+*.sh text eol=lf

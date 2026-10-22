@@ -45,18 +45,18 @@ interface/rust_builder/cargokit/build_tool/.dart_tool/
 *.xz
 
 # ---- dados do jogador e da máquina: são de quem joga, não do projeto ----
+# Ancorados na raiz (barra na frente): são as pastas de ~/jogos/pog, caso alguém as copie para
+# dentro do repositório. Sem a barra, `catalogo/` engolia nucleo/src/catalogo/ (aconteceu).
 *.bwstate
 *.card
 *.gci
 *.sav
 *.srm
 *.state
-registros/
-catalogo/
-configuracao.toml
-maquina.toml
-!exemplos/**
-jogos/
-!exemplos/jogos/
+/registros/
+/catalogo/
+/jogos/
+/configuracao.toml
+/maquina.toml
 .env
 *.log
