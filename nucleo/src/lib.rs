@@ -1,4 +1,4 @@
-//! Núcleo do POG. A interface (Flutter) fala com este crate pelo `api`;
+//! Núcleo do Corujão. A interface (Flutter) fala com este crate pelo `api`;
 //! o resto são os módulos de verdade.
 pub mod api;
 pub mod biblioteca;

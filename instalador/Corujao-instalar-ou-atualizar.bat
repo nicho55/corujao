@@ -1,30 +1,30 @@
 @echo off
-rem POG — instala ou atualiza no Windows, sem senha de administrador.
-rem Clique duas vezes. Baixa a última versão do GitHub para %LOCALAPPDATA%\pog e cria um
-rem atalho na Área de Trabalho. Se já houver POG, só atualiza quando existir versão nova.
-rem Guarda a versão instalada em versao.txt ao lado do pog.exe.
+rem Corujão — instala ou atualiza no Windows, sem senha de administrador.
+rem Clique duas vezes. Baixa a última versão do GitHub para %LOCALAPPDATA%\corujao e cria um
+rem atalho na Área de Trabalho. Se já houver Corujão, só atualiza quando existir versão nova.
+rem Guarda a versão instalada em versao.txt ao lado do corujao.exe.
 rem
 rem Hipóteses (não há Windows nesta máquina para testar): Windows 10 (2018+) ou 11, que já
 rem trazem curl, tar e PowerShell; console em UTF-8 (chcp 65001) para os acentos.
 chcp 65001 >nul
 setlocal EnableExtensions
-title POG - instalar ou atualizar
+title Corujão - instalar ou atualizar
 
-set "REPO=nicho55/pog"
-set "PACOTE=pog-windows-x64.zip"
-set "DESTINO=%LOCALAPPDATA%\pog"
+set "REPO=nicho55/corujao"
+set "PACOTE=corujao-windows-x64.zip"
+set "DESTINO=%LOCALAPPDATA%\corujao"
 set "ARQ_VERSAO=%DESTINO%\versao.txt"
-set "TRABALHO=%TEMP%\pog-instalador"
+set "TRABALHO=%TEMP%\corujao-instalador"
 set "VERSAO_ATUAL="
 set "VERSAO_NOVA="
 
 echo.
 echo  ==========================================================
-echo    POG - Plataforma Orientada a Gambiarra
+echo    Corujão
 echo    Instalar ou atualizar no Windows
 echo  ==========================================================
 echo.
-echo  Este programa baixa a última versão do POG do GitHub e deixa
+echo  Este programa baixa a última versão do Corujão do GitHub e deixa
 echo  tudo pronto em %DESTINO%,
 echo  com um atalho na Área de Trabalho. Não pede senha de administrador.
 echo.
@@ -50,7 +50,7 @@ if "%VERSAO_ATUAL%"=="%VERSAO_NOVA%" goto :ja_atualizado
 echo  [3/5] Você tem a %VERSAO_ATUAL%; vou atualizar para a %VERSAO_NOVA%.
 goto :baixar
 :instalar_novo
-echo  [3/5] O POG ainda não está neste computador; vou instalar a %VERSAO_NOVA%.
+echo  [3/5] O Corujão ainda não está neste computador; vou instalar a %VERSAO_NOVA%.
 
 :baixar
 echo  [4/5] Baixando o pacote (%PACOTE%)...
@@ -62,39 +62,39 @@ if not exist "%TRABALHO%\%PACOTE%" goto :falha_download
 echo         Pacote baixado.
 
 echo  [5/5] Instalando em %DESTINO%...
-tasklist /FI "IMAGENAME eq pog.exe" 2>nul | find /I "pog.exe" >nul
+tasklist /FI "IMAGENAME eq corujao.exe" 2>nul | find /I "corujao.exe" >nul
 if not errorlevel 1 (
-  echo         O POG está aberto; vou fechá-lo para atualizar.
-  taskkill /IM pog.exe /F >nul 2>&1
+  echo         O Corujão está aberto; vou fechá-lo para atualizar.
+  taskkill /IM corujao.exe /F >nul 2>&1
   timeout /t 2 /nobreak >nul
 )
 tar -xf "%TRABALHO%\%PACOTE%" -C "%TRABALHO%"
 if errorlevel 1 goto :falha_extrair
-if not exist "%TRABALHO%\pog\pog.exe" goto :falha_extrair
+if not exist "%TRABALHO%\corujao\corujao.exe" goto :falha_extrair
 if not exist "%DESTINO%" md "%DESTINO%" >nul 2>&1
-robocopy "%TRABALHO%\pog" "%DESTINO%" /E /NFL /NDL /NJH /NJS /NP >nul
+robocopy "%TRABALHO%\corujao" "%DESTINO%" /E /NFL /NDL /NJH /NJS /NP >nul
 if errorlevel 8 goto :falha_copiar
-if not exist "%DESTINO%\pog.exe" goto :sumiu_antivirus
+if not exist "%DESTINO%\corujao.exe" goto :sumiu_antivirus
 >"%ARQ_VERSAO%" echo %VERSAO_NOVA%
 rd /s /q "%TRABALHO%" >nul 2>&1
 
 set "AREA="
 for /f "usebackq delims=" %%d in (`powershell -NoProfile -Command "[Environment]::GetFolderPath('Desktop')"`) do set "AREA=%%d"
 if not defined AREA set "AREA=%USERPROFILE%\Desktop"
-set "ATALHO=%AREA%\POG.lnk"
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$s=(New-Object -ComObject WScript.Shell).CreateShortcut('%ATALHO%');$s.TargetPath='%DESTINO%\pog.exe';$s.WorkingDirectory='%DESTINO%';$s.IconLocation='%DESTINO%\pog.exe';$s.Description='POG - Plataforma Orientada a Gambiarra';$s.Save()" >nul 2>&1
+set "ATALHO=%AREA%\Corujão.lnk"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$s=(New-Object -ComObject WScript.Shell).CreateShortcut('%ATALHO%');$s.TargetPath='%DESTINO%\corujao.exe';$s.WorkingDirectory='%DESTINO%';$s.IconLocation='%DESTINO%\corujao.exe';$s.Description='Corujão';$s.Save()" >nul 2>&1
 if exist "%ATALHO%" (
-  echo         Atalho "POG" criado na Área de Trabalho.
+  echo         Atalho "Corujão" criado na Área de Trabalho.
 ) else (
-  echo         Não consegui criar o atalho. O programa está em %DESTINO%\pog.exe
+  echo         Não consegui criar o atalho. O programa está em %DESTINO%\corujao.exe
 )
 
 echo.
 echo  ==========================================================
 if defined VERSAO_ATUAL (
-  echo    Pronto. POG atualizado da %VERSAO_ATUAL% para a %VERSAO_NOVA%.
+  echo    Pronto. Corujão atualizado da %VERSAO_ATUAL% para a %VERSAO_NOVA%.
 ) else (
-  echo    Pronto. POG %VERSAO_NOVA% instalado.
+  echo    Pronto. Corujão %VERSAO_NOVA% instalado.
 )
 echo  ==========================================================
 echo.
@@ -103,18 +103,18 @@ echo  dizendo que "protegeu o seu PC". É porque o programa não tem um
 echo  certificado pago; não é vírus. Clique em "Mais informações" e
 echo  depois em "Executar assim mesmo". Só acontece uma vez.
 echo.
-echo  O POG não vem com jogo nenhum: ele é o launcher. Para jogar, você
+echo  O Corujão não vem com jogo nenhum: ele é o launcher. Para jogar, você
 echo  compila a recomp a partir do seu próprio disco; o LEIAME explica.
 echo.
-choice /C SN /N /M "  Abrir o POG agora? [S/N] "
+choice /C SN /N /M "  Abrir o Corujão agora? [S/N] "
 if errorlevel 2 goto :fim
-start "" "%DESTINO%\pog.exe"
+start "" "%DESTINO%\corujao.exe"
 goto :fim
 
 :ja_atualizado
 echo  [3/5] Você já tem a última versão (%VERSAO_ATUAL%). Nada a fazer.
 echo.
-echo  O POG está em %DESTINO%\pog.exe
+echo  O Corujão está em %DESTINO%\corujao.exe
 goto :fim
 
 :sem_curl
@@ -124,7 +124,7 @@ echo  Windows 10 (desde 2018) e no Windows 11.
 echo  O que fazer: atualize o Windows pelo Windows Update e rode este
 echo  arquivo de novo. Ou baixe à mão em
 echo  https://github.com/%REPO%/releases/latest
-echo  (arquivo %PACOTE%), extraia a pasta e abra o pog.exe.
+echo  (arquivo %PACOTE%), extraia a pasta e abra o corujao.exe.
 goto :fim_com_erro
 
 :sem_tar
@@ -134,7 +134,7 @@ echo  Windows 10 (desde 2018) e no Windows 11.
 echo  O que fazer: atualize o Windows pelo Windows Update e rode este
 echo  arquivo de novo. Ou baixe à mão em
 echo  https://github.com/%REPO%/releases/latest
-echo  (arquivo %PACOTE%), extraia a pasta e abra o pog.exe.
+echo  (arquivo %PACOTE%), extraia a pasta e abra o corujao.exe.
 goto :fim_com_erro
 
 :sem_internet
@@ -147,7 +147,7 @@ goto :fim_com_erro
 
 :sem_release
 echo.
-echo  O GitHub respondeu, mas ainda não há nenhuma versão publicada do POG.
+echo  O GitHub respondeu, mas ainda não há nenhuma versão publicada do Corujão.
 echo  O que fazer: avise quem te mandou este arquivo.
 goto :fim_com_erro
 
@@ -170,15 +170,15 @@ goto :fim_com_erro
 :falha_copiar
 echo.
 echo  Não consegui copiar os arquivos para %DESTINO%.
-echo  O que fazer: feche o POG se ele estiver aberto e rode este arquivo
+echo  O que fazer: feche o Corujão se ele estiver aberto e rode este arquivo
 echo  de novo. Se repetir, o antivírus pode estar segurando a pasta.
 goto :fim_com_erro
 
 :sumiu_antivirus
 echo.
-echo  Copiei os arquivos, mas o pog.exe sumiu de %DESTINO% logo em
+echo  Copiei os arquivos, mas o corujao.exe sumiu de %DESTINO% logo em
 echo  seguida. Isso é o antivírus apagando o programa.
-echo  O que fazer: abra o antivírus, restaure o pog.exe da quarentena e
+echo  O que fazer: abra o antivírus, restaure o corujao.exe da quarentena e
 echo  adicione a pasta %DESTINO% às exceções. Depois rode este arquivo de novo.
 goto :fim_com_erro
 

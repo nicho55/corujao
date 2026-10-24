@@ -21,7 +21,7 @@ pub fn nome_do_app() -> String {
     NOME_DO_APP.to_string()
 }
 
-/// O que a sigla quer dizer (subtítulo, tooltip).
+/// Frase que acompanha o nome (subtítulo, tooltip).
 #[flutter_rust_bridge::frb(sync)]
 pub fn nome_completo() -> String {
     NOME_COMPLETO.to_string()

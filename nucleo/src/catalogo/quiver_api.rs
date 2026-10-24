@@ -158,7 +158,7 @@ pub fn entrada_da_api(app: &App) -> Entrada {
 fn agente() -> ureq::Agent {
     let config = ureq::Agent::config_builder()
         .timeout_global(Some(Duration::from_secs(20)))
-        .user_agent(concat!("POG/", env!("CARGO_PKG_VERSION")))
+        .user_agent(concat!("Corujão/", env!("CARGO_PKG_VERSION")))
         .build();
     ureq::Agent::new_with_config(config)
 }
@@ -304,7 +304,7 @@ mod testes {
 
     #[test]
     fn le_arquivo_baixado_tolerando_item_quebrado() {
-        let pasta = std::env::temp_dir().join(format!("pog-teste-quiver-api-{}", std::process::id()));
+        let pasta = std::env::temp_dir().join(format!("corujao-teste-quiver-api-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&pasta);
         std::fs::create_dir_all(&pasta).unwrap();
         let arquivo = pasta.join(ARQUIVO);

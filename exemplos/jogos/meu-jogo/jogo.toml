@@ -1,4 +1,4 @@
-# Uma entrada da biblioteca. Copie esta pasta para ~/jogos/pog/jogos/<id>/ (o nome da pasta é
+# Uma entrada da biblioteca. Copie esta pasta para ~/jogos/corujao/jogos/<id>/ (o nome da pasta é
 # o id do jogo) e ponha uma capa.png em 2:3 ao lado (600x900 fica bom).
 #
 # O que é DO JOGO fica aqui; o que é DA MÁQUINA (placa de vídeo, prefixos) fica em
@@ -10,7 +10,7 @@ descricao = "Recompilação estática do Meu Jogo, compilada a partir do meu dis
 tags = ["recomp", "gamecube"]
 
 [execucao]
-# Prefira a AppImage (Linux) ou o .exe (Windows): um arquivo só. O POG não distribui jogos;
+# Prefira a AppImage (Linux) ou o .exe (Windows): um arquivo só. O Corujão não distribui jogos;
 # aponte para o que VOCÊ compilou.
 executavel = "~/jogos/meu-jogo/MeuJogo-x86_64.AppImage"
 argumentos = []
@@ -18,10 +18,10 @@ receita = "nvidia-optimus"        # nome de uma receita de maquina.toml; apague 
 processo = "meujogo"              # nome do processo real (dentro da AppImage), onde o Fechar manda o sinal
 
 [dados]
-saves = "~/.local/share/MeuJogo"  # informativo: onde o jogo guarda o que é seu. O POG nunca mexe aqui.
+saves = "~/.local/share/MeuJogo"  # informativo: onde o jogo guarda o que é seu. O Corujão nunca mexe aqui.
 
 [disco]
 # Qual cópia do jogo esta recomp cobre (RF-05). O código do disco traz sistema, jogo, região e
-# editora; a revisão é a da prensagem. Apague a seção se não souber: o POG mostra "não informado".
+# editora; a revisão é a da prensagem. Apague a seção se não souber: o Corujão mostra "não informado".
 id = "GXXE01"
 revisao = "0"

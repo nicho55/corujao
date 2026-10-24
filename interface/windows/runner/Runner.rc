@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "POG" "\0"
-            VALUE "FileDescription", "POG - Plataforma Orientada a Gambiarra" "\0"
+            VALUE "CompanyName", "Corujao" "\0"
+            VALUE "FileDescription", "Corujao" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "pog" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 POG. All rights reserved." "\0"
-            VALUE "OriginalFilename", "pog.exe" "\0"
-            VALUE "ProductName", "POG" "\0"
+            VALUE "InternalName", "corujao" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 Corujao. All rights reserved." "\0"
+            VALUE "OriginalFilename", "corujao.exe" "\0"
+            VALUE "ProductName", "Corujao" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

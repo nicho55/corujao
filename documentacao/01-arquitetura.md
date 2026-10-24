@@ -32,7 +32,7 @@ com janela (H-03) e entre duas máquinas (H-11).
 | D-10 | Biblioteca e catálogo em **TOML, um arquivo por jogo**, escritos atomicamente; catálogo é um repositório git público lido por HTTPS | sem servidor, editável à mão, sincronizável; o `apps.json` único do Quiver precisou de backup e recuperação porque corrompia |
 | D-11 | **Compilar a própria recomp é funcionalidade de primeira classe** do launcher (assistente de compilação), não um caso especial | código traduzido do disco não pode ser distribuído; sem isso, nenhum amigo joga |
 | D-12 | A skill `scaffold-flutter-rust` **não é a base** deste projeto | ela gera um SaaS (axum + SeaORM + Postgres, Flutter web + Android); aqui o Rust roda dentro do app, sem servidor, em cinco alvos nativos |
-| D-13 | **Uma raiz de dados só** (`~/jogos/pog/`, trocável por variável): jogos, capas, receitas e registros numa pasta que se copia inteira | pedido do dono ("tudo numa pastinha"); o Quiver espalha por `apps.json`, `Apps/`, `Cache/` e pastas do sistema |
+| D-13 | **Uma raiz de dados só** (`~/jogos/corujao/`, trocável por variável): jogos, capas, receitas e registros numa pasta que se copia inteira | pedido do dono ("tudo numa pastinha"); o Quiver espalha por `apps.json`, `Apps/`, `Cache/` e pastas do sistema |
 | D-14 | **Receitas de execução por máquina são dados** (`maquina.toml`), separadas do que é do jogo (`jogo.toml`), e viajam como texto no catálogo (RF-01) | o offload da Nvidia existe porque ESTE laptop é Optimus; cravar no código acerta uma máquina e erra as outras. Detecção automática e erro apontando para a receita ficam para depois |
 
 ---

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 /// Os papéis de cor da interface (RF-06). **Componente nenhum escreve cor**: todos leem daqui,
 /// por `context.cores`, e o seletor troca o tema inteiro. Cada tema é uma instância desta
 /// classe; paletas nomeadas e tema do usuário entram como novas instâncias, sem tocar nas telas.
-class CoresDoPog extends ThemeExtension<CoresDoPog> {
-  const CoresDoPog({
+class CoresDoCorujao extends ThemeExtension<CoresDoCorujao> {
+  const CoresDoCorujao({
     required this.fundo,
     required this.painel,
     required this.painelEscuro,
@@ -37,7 +37,7 @@ class CoresDoPog extends ThemeExtension<CoresDoPog> {
 
   /// No espírito da Steam: azul-escuro, painéis um tom acima, destaque azul-claro, verde no jogar.
   /// Contraste medido (WCAG): texto ≥ 4,5:1 sobre fundo, painel e cabeçalho; botão JOGAR ≥ 3:1.
-  static const escura = CoresDoPog(
+  static const escura = CoresDoCorujao(
     fundo: Color(0xFF1B2838),
     painel: Color(0xFF2A475E),
     painelEscuro: Color(0xFF171D25),
@@ -52,7 +52,7 @@ class CoresDoPog extends ThemeExtension<CoresDoPog> {
   );
 
   /// A mesma estrutura em fundo claro. Contraste conferido: texto ≥ 4,5:1, botão ≥ 3:1.
-  static const clara = CoresDoPog(
+  static const clara = CoresDoCorujao(
     fundo: Color(0xFFF2F4F7),
     painel: Color(0xFFFFFFFF),
     painelEscuro: Color(0xFFE3E8EE),
@@ -67,7 +67,7 @@ class CoresDoPog extends ThemeExtension<CoresDoPog> {
   );
 
   @override
-  CoresDoPog copyWith({
+  CoresDoCorujao copyWith({
     Color? fundo,
     Color? painel,
     Color? painelEscuro,
@@ -80,7 +80,7 @@ class CoresDoPog extends ThemeExtension<CoresDoPog> {
     Color? alerta,
     Color? erro,
   }) {
-    return CoresDoPog(
+    return CoresDoCorujao(
       fundo: fundo ?? this.fundo,
       painel: painel ?? this.painel,
       painelEscuro: painelEscuro ?? this.painelEscuro,
@@ -96,9 +96,9 @@ class CoresDoPog extends ThemeExtension<CoresDoPog> {
   }
 
   @override
-  CoresDoPog lerp(CoresDoPog? outro, double t) {
+  CoresDoCorujao lerp(CoresDoCorujao? outro, double t) {
     if (outro == null) return this;
-    return CoresDoPog(
+    return CoresDoCorujao(
       fundo: Color.lerp(fundo, outro.fundo, t)!,
       painel: Color.lerp(painel, outro.painel, t)!,
       painelEscuro: Color.lerp(painelEscuro, outro.painelEscuro, t)!,
@@ -116,7 +116,7 @@ class CoresDoPog extends ThemeExtension<CoresDoPog> {
 
 /// `context.cores.destaque` em qualquer widget.
 extension CoresDoContexto on BuildContext {
-  CoresDoPog get cores => Theme.of(this).extension<CoresDoPog>() ?? CoresDoPog.escura;
+  CoresDoCorujao get cores => Theme.of(this).extension<CoresDoCorujao>() ?? CoresDoCorujao.escura;
 }
 
 /// As escolhas do seletor (RF-06): o `id` é o mesmo que o núcleo grava em `configuracao.toml`.
@@ -135,7 +135,7 @@ enum ModoDeTema {
   static ModoDeTema deId(String id) => values.firstWhere((m) => m.id == id, orElse: () => escuro);
 }
 
-ThemeData _construir(CoresDoPog c, Brightness brilho) {
+ThemeData _construir(CoresDoCorujao c, Brightness brilho) {
   final base = brilho == Brightness.dark ? ThemeData.dark(useMaterial3: true) : ThemeData.light(useMaterial3: true);
   return base.copyWith(
     scaffoldBackgroundColor: c.fundo,
@@ -163,5 +163,5 @@ ThemeData _construir(CoresDoPog c, Brightness brilho) {
   );
 }
 
-ThemeData temaEscuro() => _construir(CoresDoPog.escura, Brightness.dark);
-ThemeData temaClaro() => _construir(CoresDoPog.clara, Brightness.light);
+ThemeData temaEscuro() => _construir(CoresDoCorujao.escura, Brightness.dark);
+ThemeData temaClaro() => _construir(CoresDoCorujao.clara, Brightness.light);

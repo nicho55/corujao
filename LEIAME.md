@@ -1,14 +1,15 @@
-# POG — Plataforma Orientada a Gambiarra
+# Corujão
 
 Um launcher de jogos com cara de Steam, aberto e multiplataforma, para **preservar e jogar com
 amigos** jogos recompilados. Você coloca na biblioteca as recomps que compilou, aperta Jogar,
-e o POG cuida do resto: abre o jogo com os ajustes certos para a sua máquina, mostra o registro
+e o Corujão cuida do resto: abre o jogo com os ajustes certos para a sua máquina, mostra o registro
 da execução e fecha limpo quando você pede. A aba Explorar mostra o que existe no mundo das
 recomps e explica o que cada repositório é.
 
-O nome é a piada: *Programação Orientada a Gambiarra*. O programa, não.
+O nome é homenagem às noites viradas em lan houses e na casa de amigos, jogando até o sol
+nascer. (Até 24/10/2026 o projeto se chamava POG.)
 
-> **Importante: o POG não vem com jogo nenhum, e não vai vir.** Leia
+> **Importante: o Corujão não vem com jogo nenhum, e não vai vir.** Leia
 > [Por que o jogo não vem junto](#por-que-o-jogo-não-vem-junto) antes de procurar o Zelda.
 
 ## O que ele faz hoje (v0.1)
@@ -23,15 +24,15 @@ O nome é a piada: *Programação Orientada a Gambiarra*. O programa, não.
   rede".
 - **Aparência**: claro, escuro ou seguir o sistema, no botão do canto direito. Nenhuma cor está
   escrita nas telas: tudo vem do tema, então temas novos são só uma paleta a mais.
-- **Uma pasta só** com tudo do launcher (`~/jogos/pog` no Linux, `%USERPROFILE%\jogos\pog` no
-  Windows). Copie-a inteira para levar o POG para outra máquina.
+- **Uma pasta só** com tudo do launcher (`~/jogos/corujao` no Linux, `%USERPROFILE%\jogos\corujao` no
+  Windows). Copie-a inteira para levar o Corujão para outra máquina.
 
 ## Instalar
 
 ### Windows
 
-1. Baixe o `pog-windows-x64.zip` da [última release](../../releases/latest).
-2. Extraia onde quiser e abra `pog.exe`. O Windows pode avisar que o programa não é assinado;
+1. Baixe o `corujao-windows-x64.zip` da [última release](../../releases/latest).
+2. Extraia onde quiser e abra `corujao.exe`. O Windows pode avisar que o programa não é assinado;
    é o preço de não pagarmos certificado. "Mais informações" → "Executar assim mesmo".
 3. Na primeira abertura a biblioteca vem vazia. Siga [Trazer o seu jogo](#trazer-o-seu-jogo).
 
@@ -39,14 +40,14 @@ O nome é a piada: *Programação Orientada a Gambiarra*. O programa, não.
 
 Pacote pronto:
 
-1. Baixe o `pog-linux-x64.tar.gz` da [última release](../../releases/latest).
-2. `tar -xzf pog-linux-x64.tar.gz && ./pog/pog`.
+1. Baixe o `corujao-linux-x64.tar.gz` da [última release](../../releases/latest).
+2. `tar -xzf corujao-linux-x64.tar.gz && ./corujao/corujao`.
 
 Ou compile do repositório (precisa de Flutter, Rust, GTK 3, cmake, ninja e clang):
 
 ```bash
-git clone https://github.com/nicho55/pog.git
-cd pog
+git clone https://github.com/nicho55/corujao.git
+cd corujao
 ./abrir.sh --compilar      # compila interface + núcleo e abre; depois, só ./abrir.sh
 ```
 
@@ -56,9 +57,9 @@ Mudou `nucleo/src/api/`? Rode `cd interface && flutter_rust_bridge_codegen gener
 ### Steam Deck
 
 É um PC Linux (x86-64, SteamOS). Use o pacote Linux no modo área de trabalho: extraia em
-`~/Applications` e abra o `pog`. O pacote é compilado numa base antiga para rodar em sistemas
+`~/Applications` e abra o `corujao`. O pacote é compilado numa base antiga para rodar em sistemas
 conservadores, e cada release imprime no log do CI a glibc mínima que exige. Para o modo jogo,
-adicione o `pog` como jogo não-Steam. O POG ainda não navega por controle: use o touchpad.
+adicione o `corujao` como jogo não-Steam. O Corujão ainda não navega por controle: use o touchpad.
 
 Antes de baixar a recomp, confira a glibc do seu Deck no Konsole:
 
@@ -70,11 +71,11 @@ Se aparecer 2.38 ou maior, o BlueWake roda.
 
 ### Android e iOS (só para ver a interface, por enquanto)
 
-Vale dizer antes de instalar: **no celular o POG ainda não roda jogo nenhum.** Executar um binário
+Vale dizer antes de instalar: **no celular o Corujão ainda não roda jogo nenhum.** Executar um binário
 local não existe no Android e no iOS como no computador; isso é uma fase futura do projeto. O app
 móvel serve para ver a interface e o catálogo da aba Explorar.
 
-- **Android:** o `pog-android.apk` da release é assinado com chave de depuração. O celular vai
+- **Android:** o `corujao-android.apk` da release é assinado com chave de depuração. O celular vai
   pedir para liberar "fontes desconhecidas" para o navegador ou gerenciador de arquivos.
 - **iOS:** não há arquivo instalável. Sem conta de desenvolvedor da Apple e assinatura, ninguém
   instala um app fora da App Store; o caminho seria AltStore ou SideStore com um Apple ID. O CI só
@@ -91,27 +92,27 @@ Uma **recomp** (recompilação estática) traduz o código de um jogo para C e c
 resultado é o código do jogo, só que em outra forma — e o código do jogo é de quem o fez. O
 projeto de recompilação distribui a **ferramenta**; o jogo compilado sai do **seu** disco, na
 **sua** máquina, e fica com você. Publicar um binário de recomp derrubaria o repositório e
-exporia quem publicou. Por isso o POG distribui o launcher, e nunca um jogo.
+exporia quem publicou. Por isso o Corujão distribui o launcher, e nunca um jogo.
 
 O que **pode** circular é texto: a *receita* que faz o jogo abrir direito numa máquina como a
 sua (quais variáveis, qual prefixo), a capa, as tags, qual versão do disco a recomp cobre. É
-isso que o POG guarda e, no futuro, vai trocar entre amigos.
+isso que o Corujão guarda e, no futuro, vai trocar entre amigos.
 
 ## Trazer o seu jogo
 
 1. **Compile a recomp** a partir do seu disco, seguindo as instruções do repositório dela (a aba
    Explorar tem o link de cada um). Para o Wind Waker, o projeto é o BlueWake.
-2. Crie a pasta do jogo na raiz do POG: `~/jogos/pog/jogos/<id>/` (`<id>` é um nome curto, sem
+2. Crie a pasta do jogo na raiz do Corujão: `~/jogos/corujao/jogos/<id>/` (`<id>` é um nome curto, sem
    espaços). Copie [`exemplos/jogos/meu-jogo/jogo.toml`](exemplos/jogos/meu-jogo/jogo.toml) para
    lá, aponte `executavel` para o que você compilou e ajuste nome, console e `[disco]`.
 3. Ponha uma `capa.png` em 2:3 ao lado (600×900 fica bom).
 4. Se a sua máquina precisa de ajuste para o jogo abrir (laptop com duas placas de vídeo, por
-   exemplo), copie [`exemplos/maquina.toml`](exemplos/maquina.toml) para `~/jogos/pog/maquina.toml`
+   exemplo), copie [`exemplos/maquina.toml`](exemplos/maquina.toml) para `~/jogos/corujao/maquina.toml`
    e aponte a receita no `jogo.toml`.
-5. No POG, clique em recarregar. O jogo aparece na biblioteca; a página dele mostra a linha de
+5. No Corujão, clique em recarregar. O jogo aparece na biblioteca; a página dele mostra a linha de
    comando exata que o botão Jogar vai usar.
 
-O POG **nunca mexe nos seus saves**: eles ficam onde o jogo os guarda.
+O Corujão **nunca mexe nos seus saves**: eles ficam onde o jogo os guarda.
 
 ## Onde está o quê
 
@@ -128,7 +129,7 @@ O POG **nunca mexe nos seus saves**: eles ficam onde o jogo os guarda.
 A pasta de dados:
 
 ```
-~/jogos/pog/
+~/jogos/corujao/
   jogos/<id>/jogo.toml   metadados de um jogo: nome, console, executável, receita, saves, disco
   jogos/<id>/capa.png    capa em 2:3
   maquina.toml           receitas de execução DESTA máquina
@@ -137,7 +138,7 @@ A pasta de dados:
   registros/             saída de cada execução, um arquivo por vez
 ```
 
-Troque a raiz com a variável de ambiente `POG_RAIZ`. O nome do programa vive numa constante só,
+Troque a raiz com a variável de ambiente `CORUJAO_RAIZ`. O nome do programa vive numa constante só,
 em `nucleo/src/nome.rs`.
 
 ## Para quem for mexer
@@ -145,7 +146,7 @@ em `nucleo/src/nome.rs`.
 - Primeiro passo depois de clonar: `git config core.hooksPath .githooks`. O hook recusa commit com
   binário de jogo ou arquivo acima de 5 MB; o CI confere a mesma coisa em todo push.
 - Tudo em português do Brasil, inclusive nomes de arquivo, função e variável.
-- Classe da janela no Linux: `io.github.nicho55.pog` (`xdotool search --class io.github.nicho55.pog`).
+- Classe da janela no Linux: `io.github.nicho55.corujao` (`xdotool search --class io.github.nicho55.corujao`).
   Não procure pelo título: um terminal mostrando este texto também casa.
 - Testes do núcleo: `cd nucleo && cargo test`. Análise da interface: `cd interface && flutter analyze`.
 - Decisões de arquitetura (D-01 a D-14) e requisitos (RF-01 a RF-06) em `documentacao/`.

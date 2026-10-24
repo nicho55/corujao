@@ -4,7 +4,7 @@
 #   abrir.sh --compilar   recompila (interface Flutter + núcleo Rust) e abre
 set -euo pipefail
 AQUI="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BIN="$AQUI/interface/build/linux/x64/release/bundle/pog"
+BIN="$AQUI/interface/build/linux/x64/release/bundle/corujao"
 if [ ! -x "$BIN" ] || [ "${1:-}" = "--compilar" ]; then
   [ "${1:-}" = "--compilar" ] && shift
   ( cd "$AQUI/interface" && flutter build linux --release )

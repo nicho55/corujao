@@ -172,7 +172,7 @@ mod testes {
     }"#;
 
     fn pasta_de_teste(nome: &str, com_links: bool) -> CacheDoQuiver {
-        let pasta = std::env::temp_dir().join(format!("pog-teste-quiver-{nome}-{}", std::process::id()));
+        let pasta = std::env::temp_dir().join(format!("corujao-teste-quiver-{nome}-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&pasta);
         std::fs::create_dir_all(&pasta).unwrap();
         std::fs::write(pasta.join(ARQUIVO_STATUS), STATUS).unwrap();

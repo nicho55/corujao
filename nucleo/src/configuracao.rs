@@ -63,7 +63,7 @@ impl Configuracao {
         let arquivo = raiz.configuracao();
         let temporario = arquivo.with_extension("toml.tmp");
         let texto = format!(
-            "# Preferências do POG. Editável à mão; o app reescreve ao mudar algo na interface.\n{}",
+            "# Preferências do Corujão. Editável à mão; o app reescreve ao mudar algo na interface.\n{}",
             toml::to_string(self).context("não consegui serializar a configuração")?
         );
         std::fs::write(&temporario, texto)
@@ -80,7 +80,7 @@ mod testes {
     use std::path::PathBuf;
 
     fn raiz_temporaria(nome: &str) -> Raiz {
-        let caminho = std::env::temp_dir().join(format!("pog-teste-config-{nome}-{}", std::process::id()));
+        let caminho = std::env::temp_dir().join(format!("corujao-teste-config-{nome}-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&caminho);
         Raiz { caminho }
     }

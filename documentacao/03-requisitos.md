@@ -223,7 +223,7 @@ prensagem. É exatamente a informação que falta no catálogo do Quiver.
 - **revisado em:** 22/10/2026
 - **pedido por:** o dono, 22/10/2026
 
-O usuário escolhe a aparência do POG. É a primeira parcela do RF-02, que já dizia que o produto
+O usuário escolhe a aparência do Corujão. É a primeira parcela do RF-02, que já dizia que o produto
 nasce neutro e os temas entram **como camada**.
 
 Consequência de desenho, e ela é a parte que importa: **nenhuma cor pode estar escrita no meio
@@ -244,13 +244,13 @@ definido pelo usuário. Acessibilidade entra aqui: contraste suficiente é requi
 ### O que é
 
 O amigo do dono não entende de tecnologia. Em vez de colar comando no `cmd`, ele recebe **um
-arquivo só**, `POG-instalar-ou-atualizar.bat`, anexado na release junto com o zip, que ele clica
-duas vezes e resolve: instala se não houver POG; se houver, compara a versão instalada com a última
+arquivo só**, `Corujao-instalar-ou-atualizar.bat`, anexado na release junto com o zip, que ele clica
+duas vezes e resolve: instala se não houver Corujão; se houver, compara a versão instalada com a última
 publicada e atualiza só quando precisa, dizendo o que fez.
 
 ### O que se espera
 
-- sem senha de administrador: instala em `%LOCALAPPDATA%\pog`, atalho na Área de Trabalho;
+- sem senha de administrador: instala em `%LOCALAPPDATA%\corujao`, atalho na Área de Trabalho;
 - console com título, passos numerados e mensagens em português de gente; nada de saída crua
   de `curl`;
 - erros em português útil, cada um com o que fazer: sem internet, GitHub fora, Windows velho sem
@@ -260,9 +260,9 @@ publicada e atualiza só quando precisa, dizendo o que fez.
 
 ### Como foi feito (22/10/2026, implementador)
 
-`instalador/POG-instalar-ou-atualizar.bat`, anexado à release pelo workflow `Pacotes`. Descobre a
+`instalador/Corujao-instalar-ou-atualizar.bat`, anexado à release pelo workflow `Pacotes`. Descobre a
 última versão pelo redirecionamento de `github.com/<repo>/releases/latest` (sem JSON), baixa o
-`pog-windows-x64.zip` com `curl -# -f -L`, extrai com `tar`, copia com `robocopy /E`, cria o atalho
+`corujao-windows-x64.zip` com `curl -# -f -L`, extrai com `tar`, copia com `robocopy /E`, cria o atalho
 por PowerShell (`WScript.Shell`) na pasta que o Windows diz ser a Área de Trabalho (cobre OneDrive).
 Conferido aqui: labels e `goto` casam, CRLF em todas as linhas, sem BOM, lógica de versão simulada
 em shell. **Não testado em Windows de verdade** (não há Windows nesta máquina); hipóteses marcadas
@@ -270,7 +270,7 @@ no cabeçalho do arquivo: Windows 10 de 2018 em diante ou 11, acentos via `chcp 
 
 ---
 
-## RF-08 — Steam Deck: o POG e a recomp rodam lá?
+## RF-08 — Steam Deck: o Corujão e a recomp rodam lá?
 
 - **status:** em análise
 - **revisado em:** 22/10/2026
@@ -278,7 +278,7 @@ no cabeçalho do arquivo: Windows 10 de 2018 em diante ou 11, acentos via `chcp 
 
 ### O que o dono perguntou
 
-O amigo tem um Steam Deck. O POG e o recomp rodam nele? Nenhum de nós tem um Deck; o amigo tem.
+O amigo tem um Steam Deck. O Corujão e o recomp rodam nele? Nenhum de nós tem um Deck; o amigo tem.
 Não se constrói nada para SteamOS antes de o dono decidir.
 
 ### O lado do recomp (levantado pela gerente, 22/10/2026)
@@ -297,28 +297,28 @@ getconf GNU_LIBC_VERSION; grep -m1 PRETTY_NAME /etc/os-release
 Sai algo como `glibc 2.38` e o nome do SteamOS. **Se o número da glibc for 2.38 ou maior, o jogo
 roda.** (Testado aqui: devolve `glibc 2.41` nesta Debian.)
 
-### O lado do POG (avaliação do implementador, 22/10/2026, sem Deck para testar)
+### O lado do Corujão (avaliação do implementador, 22/10/2026, sem Deck para testar)
 
-- **O POG precisa de mais glibc que o jogo.** Medido no pacote compilado nesta máquina:
+- **O Corujão precisa de mais glibc que o jogo.** Medido no pacote compilado nesta máquina:
   `libnucleo.so` exige `GLIBC_2.39` (o Rust puxa símbolos da glibc onde foi compilado), o runner
-  `pog` exige 2.34 e o motor do Flutter só 2.18. O CI de hoje compila em `ubuntu-latest` (24.04,
+  `corujao` exige 2.34 e o motor do Flutter só 2.18. O CI de hoje compila em `ubuntu-latest` (24.04,
   glibc 2.39), então o pacote Linux da release também exige 2.39. **Num Deck com glibc 2.38, o
-  POG não abre e o jogo abre.** Saída barata, se o dono quiser: compilar o Linux no runner
+  Corujão não abre e o jogo abre.** Saída barata, se o dono quiser: compilar o Linux no runner
   `ubuntu-22.04` (glibc 2.35), uma linha no workflow, que cobre o Deck e qualquer distro de 2022
   em diante. Não é build para SteamOS, é só exigir menos; mas fica para o dono decidir.
-- **Raiz somente leitura.** Nada de instalar pacote no sistema. O POG já vive inteiro no home
-  (`~/jogos/pog` para dados; o `tar.gz` extraído em `~/Applications` ou `~/.local/share/pog`), então
+- **Raiz somente leitura.** Nada de instalar pacote no sistema. O Corujão já vive inteiro no home
+  (`~/jogos/corujao` para dados; o `tar.gz` extraído em `~/Applications` ou `~/.local/share/corujao`), então
   isso não o atrapalha.
-- **Bibliotecas do sistema que o POG usa** (medido com `objdump`): GTK 3, GLib/GIO, Cairo, Pango,
+- **Bibliotecas do sistema que o Corujão usa** (medido com `objdump`): GTK 3, GLib/GIO, Cairo, Pango,
   HarfBuzz, Fontconfig, GdkPixbuf, Epoxy, libstdc++, zlib. O SteamOS traz Plasma e GTK 3 na imagem
   (hipótese forte: o modo área de trabalho tem apps GTK); confere-se com
   `ldconfig -p | grep -c 'libgtk-3\|libepoxy'` (dois ou mais = tem).
-- **AppImage é o formato certo para lá?** Para o jogo, sim (já é). Para o POG, o `tar.gz` basta
+- **AppImage é o formato certo para lá?** Para o jogo, sim (já é). Para o Corujão, o `tar.gz` basta
   enquanto o GTK do sistema servir; AppImage só vale a pena se faltar biblioteca, e aí embrulha o
   bundle do Flutter com `linuxdeploy` + plugin GTK. Não fazer antes de o amigo medir.
-- **Modo jogo.** Entra como **jogo não-Steam** apontando para o `pog` (ou um script que o chama).
-  O gamescope roda o POG; quando o POG lança o BlueWake como processo filho, a janela do jogo
-  aparece na mesma sessão, como fazem Heroic e Lutris. Duas ressalvas: o POG ainda não tem
+- **Modo jogo.** Entra como **jogo não-Steam** apontando para o `corujao` (ou um script que o chama).
+  O gamescope roda o Corujão; quando o Corujão lança o BlueWake como processo filho, a janela do jogo
+  aparece na mesma sessão, como fazem Heroic e Lutris. Duas ressalvas: o Corujão ainda não tem
   navegação por controle (seria um requisito novo; no Deck o touchpad direito vira mouse via Steam
   Input), e o jogo deve ser configurado para tela cheia. **Recomendação:** primeiro no modo área de
   trabalho, para provar que abre; depois jogo não-Steam.
@@ -327,8 +327,8 @@ roda.** (Testado aqui: devolve `glibc 2.41` nesta Debian.)
 
 ### Em aberto (decisão do dono)
 
-Compilar o pacote Linux em `ubuntu-22.04`; navegação por controle no POG; e, só depois de o amigo
-rodar o comando, decidir se vale embrulhar o POG em AppImage.
+Compilar o pacote Linux em `ubuntu-22.04`; navegação por controle no Corujão; e, só depois de o amigo
+rodar o comando, decidir se vale embrulhar o Corujão em AppImage.
 
 ---
 
@@ -358,7 +358,7 @@ iOS. Ninguém compila na mão para distribuir.
    instalável** sem conta de desenvolvedor da Apple e assinatura. É verificação de compilação,
    não entrega; o `LEIAME` diz isso.
 
-**O aviso que mais importa:** no celular, hoje, o POG abre a biblioteca vazia e não roda jogo
+**O aviso que mais importa:** no celular, hoje, o Corujão abre a biblioteca vazia e não roda jogo
 nenhum, porque "executar um binário local" não existe no Android e no iOS como no desktop (ver o
 plano por fases em `01-arquitetura.md`). O artefato móvel serve para **ver a interface e o
 catálogo**, e o `LEIAME` diz isso para ninguém instalar e achar que quebrou.
@@ -371,11 +371,11 @@ começa antes de o desktop fechar.
 ### Em aberto
 
 AppImage para o Linux; chave de release do Android (decisão do dono); navegação por controle no
-POG para o modo jogo do Deck.
+Corujão para o modo jogo do Deck.
 
 ---
 
-## RF-10 — O POG cuida dos saves
+## RF-10 — O Corujão cuida dos saves
 
 - **status:** aceito, a implementar depois
 - **revisado em:** 22/10/2026
@@ -383,7 +383,7 @@ POG para o modo jogo do Deck.
 
 ### O que é
 
-O POG já é responsável pelos arquivos do jogo e da recomp. O dono quer que ele assuma também
+O Corujão já é responsável pelos arquivos do jogo e da recomp. O dono quer que ele assuma também
 os **saves** do jogador.
 
 ### A distinção que decide tudo
@@ -408,7 +408,7 @@ O BlueWake já guarda **um** nível de backup do cartão. Um só.
 
 ### O que se espera do desenho
 
-- **Migrar copiando e conferindo, nunca movendo.** Se o POG passar a hospedar os saves, a
+- **Migrar copiando e conferindo, nunca movendo.** Se o Corujão passar a hospedar os saves, a
   primeira execução copia, confere byte a byte, e **deixa o original onde está**. Perder save de
   alguém por causa de uma migração é o pior defeito possível neste programa;
 - **versionar, não sobrescrever.** O desastre comum não é o arquivo sumir, é um save ruim
@@ -417,7 +417,7 @@ O BlueWake já guarda **um** nível de backup do cartão. Um só.
 - **o jogo escreve onde ele quer.** Dá para redirecionar o BlueWake por `XDG_DATA_HOME` e
   `XDG_CONFIG_HOME` (o `bin/medir-ritmo.sh` do RECOMPS faz exatamente isso), mas **não há
   garantia de que toda recomp respeite**. Então o `jogo.toml` precisa **declarar** onde ficam os
-  saves daquele jogo, e o POG trabalha com essa declaração em vez de adivinhar;
+  saves daquele jogo, e o Corujão trabalha com essa declaração em vez de adivinhar;
 - **cabe na pasta única** do RF-01: save é o que mais justifica a regra de copiar a pasta inteira
   e levar tudo;
 - **sincronizar entre máquinas** é desejável — o dono joga no PC e o amigo tem Steam Deck — mas
@@ -427,6 +427,6 @@ O BlueWake já guarda **um** nível de backup do cartão. Um só.
 
 ### Em aberto
 
-Se o POG hospeda os saves ou apenas faz cópia de segurança do que o jogo escreve. A primeira
+Se o Corujão hospeda os saves ou apenas faz cópia de segurança do que o jogo escreve. A primeira
 opção dá a pasta única; a segunda é mais segura com recomps que ignoram as variáveis de
 ambiente. **Não resolver agora.**

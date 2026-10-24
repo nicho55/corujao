@@ -1,9 +1,9 @@
-# Pacotes do POG para Windows e Linux, feitos no GitHub (grátis em repositório público).
+# Pacotes do Corujão para Windows e Linux, feitos no GitHub (grátis em repositório público).
 # Não dá para compilar o Windows a partir do Linux: `flutter build windows` exige Windows com
 # Visual Studio, então o runner `windows-latest` faz esse trabalho.
 #
 # Dispara numa tag `v*` (publica a release com os pacotes anexados) ou à mão (só gera artefatos).
-# O que sai: pog-windows-x64.zip e pog-linux-x64.tar.gz. Nenhum jogo vai junto: o POG é o
+# O que sai: corujao-windows-x64.zip e corujao-linux-x64.tar.gz. Nenhum jogo vai junto: o Corujão é o
 # launcher; cada pessoa compila a própria recomp a partir do próprio disco (ver LEIAME.md).
 name: Pacotes
 
@@ -41,22 +41,22 @@ jobs:
       - name: Empacotar
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path pacote/pog | Out-Null
-          Copy-Item -Recurse -Force interface/build/windows/x64/runner/Release/* pacote/pog/
-          Copy-Item LEIAME.md, LICENSE pacote/pog/
-          Copy-Item -Recurse exemplos pacote/pog/exemplos
-          Compress-Archive -Path pacote/pog -DestinationPath pog-windows-x64.zip -Force
+          New-Item -ItemType Directory -Force -Path pacote/corujao | Out-Null
+          Copy-Item -Recurse -Force interface/build/windows/x64/runner/Release/* pacote/corujao/
+          Copy-Item LEIAME.md, LICENSE pacote/corujao/
+          Copy-Item -Recurse exemplos pacote/corujao/exemplos
+          Compress-Archive -Path pacote/corujao -DestinationPath corujao-windows-x64.zip -Force
       - uses: actions/upload-artifact@v4
         with:
-          name: pog-windows-x64
-          path: pog-windows-x64.zip
+          name: corujao-windows-x64
+          path: corujao-windows-x64.zip
       - name: Anexar à release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            pog-windows-x64.zip
-            instalador/POG-instalar-ou-atualizar.bat
+            corujao-windows-x64.zip
+            instalador/Corujao-instalar-ou-atualizar.bat
 
   linux:
     # Base ANTIGA de propósito (RF-09): binário feito contra glibc 2.35 roda em qualquer
@@ -90,29 +90,29 @@ jobs:
       - name: Portabilidade (glibc que o pacote exige; sai no log de toda release)
         run: |
           echo "glibc do runner: $(ldd --version | head -1)"
-          for f in interface/build/linux/x64/release/bundle/pog interface/build/linux/x64/release/bundle/lib/*.so; do
+          for f in interface/build/linux/x64/release/bundle/corujao interface/build/linux/x64/release/bundle/lib/*.so; do
             printf '%-45s exige %s\n' "$(basename "$f")" "$(objdump -T "$f" | grep -o 'GLIBC_[0-9.]*' | sort -V | tail -1)"
           done
       - name: Empacotar
         run: |
-          mkdir -p pacote/pog
-          cp -r interface/build/linux/x64/release/bundle/* pacote/pog/
-          cp LEIAME.md LICENSE pacote/pog/
-          cp -r exemplos pacote/pog/exemplos
-          tar -C pacote -czf pog-linux-x64.tar.gz pog
+          mkdir -p pacote/corujao
+          cp -r interface/build/linux/x64/release/bundle/* pacote/corujao/
+          cp LEIAME.md LICENSE pacote/corujao/
+          cp -r exemplos pacote/corujao/exemplos
+          tar -C pacote -czf corujao-linux-x64.tar.gz corujao
       - uses: actions/upload-artifact@v4
         with:
-          name: pog-linux-x64
-          path: pog-linux-x64.tar.gz
+          name: corujao-linux-x64
+          path: corujao-linux-x64.tar.gz
       - name: Anexar à release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: pog-linux-x64.tar.gz
+          files: corujao-linux-x64.tar.gz
 
   android:
     # APK com assinatura de depuração (RF-09): serve para ver a interface e o catálogo; no celular
-    # o POG ainda não roda jogo. Sem chave de release, nada vai para a Play Store.
+    # o Corujão ainda não roda jogo. Sem chave de release, nada vai para a Play Store.
     name: Android (APK de depuração)
     runs-on: ubuntu-latest
     steps:
@@ -137,16 +137,16 @@ jobs:
         working-directory: interface
         run: flutter build apk --release
       - name: Empacotar
-        run: cp interface/build/app/outputs/flutter-apk/app-release.apk pog-android.apk
+        run: cp interface/build/app/outputs/flutter-apk/app-release.apk corujao-android.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: pog-android
-          path: pog-android.apk
+          name: corujao-android
+          path: corujao-android.apk
       - name: Anexar à release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: pog-android.apk
+          files: corujao-android.apk
 
   ios:
     # Só verificação de compilação (RF-09): sem conta de desenvolvedor da Apple não existe

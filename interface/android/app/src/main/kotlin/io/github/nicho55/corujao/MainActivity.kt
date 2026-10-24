@@ -1,4 +1,4 @@
-package io.github.nicho55.pog
+package io.github.nicho55.corujao
 
 import io.flutter.embedding.android.FlutterActivity
 

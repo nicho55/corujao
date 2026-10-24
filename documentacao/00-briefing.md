@@ -1,7 +1,6 @@
 # Briefing do projeto — a "Steam dos recomps"
 
-**Estado:** aberto em 22/10/2026. Nome escolhido pelo dono em 22/10/2026: **POG — Plataforma Orientada a Gambiarra**
-(a piada é a "Programação Orientada a Gambiarra"). Repositório em `~/projetos/pog`, dados em `~/jogos/pog`.
+**Estado:** aberto em 22/10/2026. Nasceu como POG (Plataforma Orientada a Gambiarra) e, em 24/10/2026, o dono o renomeou para **Corujão**, em homenagem às noites viradas em lan houses e na casa de amigos jogando. Repositório em `~/projetos/corujao`, dados em `~/jogos/corujao`.
 
 **Papéis:** o dono (neps) decide. A sessão Claude `neps-0d` é a gerente de projeto: é com ela
 que se tiram dúvidas e é ela que escreve e atualiza esta documentação. Quem implementa recebe

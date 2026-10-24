@@ -11,7 +11,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 String nomeDoApp() => RustLib.instance.api.crateApiNomeDoApp();
 
-/// O que a sigla quer dizer (subtítulo, tooltip).
+/// Frase que acompanha o nome (subtítulo, tooltip).
 String nomeCompleto() => RustLib.instance.api.crateApiNomeCompleto();
 
 String raiz() => RustLib.instance.api.crateApiRaiz();

@@ -2,7 +2,7 @@
 name = "nucleo"
 version = "0.1.0"
 edition = "2021"
-description = "Núcleo do POG (Plataforma Orientada a Gambiarra): biblioteca, receitas de execução e controle dos jogos"
+description = "Núcleo do Corujão: biblioteca, receitas de execução e controle dos jogos"
 license = "Apache-2.0"
 
 [lib]
